@@ -5,6 +5,7 @@ import re
 import numpy as np
 import sys
 from collections import deque
+import chardet
 
 
 def cal_complexity(file_name):
@@ -13,7 +14,11 @@ def cal_complexity(file_name):
 
     data = ''
     LOC = 0
-    with open(file_name, 'r') as file:
+
+    rawdata = open(file_name, 'rb').read()
+    result = chardet.detect(rawdata)
+    enc = result['encoding']
+    with open(file_name, 'r', encoding=enc) as file:
         # get LOC
         comment_start = False
         for line in file.readlines():
